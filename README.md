@@ -21,9 +21,9 @@ const usuariosRef = db.collection('usuarios');
 
 ## Agregar / Insertar
 
-    le pongo el nombre que quiero a la collection
-    (collecion = "tabla")
-    add() si la tabla no existe, la crea
+le pongo el nombre que quiero a la collection
+(collecion = "tabla")
+add() si la tabla no existe, la crea
     
 ```
 usuariosRef
@@ -40,9 +40,9 @@ usuariosRef
 ```
 
 ## Modifico con set
-    A diferencia del update(), el set()
-    destruye la info que no enviamos,
-    por ende modifica todo el objeto (documento)
+A diferencia del update(), el set()
+destruye la info que no enviamos,
+por ende modifica todo el objeto (documento)
 
 ```
 usuariosRef
@@ -62,17 +62,17 @@ usuariosRef
 
 ## Seleccion de registros
 
-    Equivalente SQL: select * from usuarios;
+Equivalente SQL: select * from usuarios;
 
-    OBSERVABLE, tiempo real
-    onSnapshot() es un callback que se va a ejecutar
-    cada vez que algo cambie en la base de datos firestore
+OBSERVABLE, tiempo real
+onSnapshot() es un callback que se va a ejecutar
+cada vez que algo cambie en la base de datos firestore
 
-    Me creo un array para guardarme la info traida
-    esa info se obtiene, .data() y el uid por separado .id
-    para comodidad pusheo un objeto con {id: , ...snapHijo.data() }
-    esto es similar a un subscribe de angular, una vez que arranca
-    se queda escuchando cambios, y cada cambio ejecuta otra vez esto
+Me creo un array para guardarme la info traida
+esa info se obtiene, .data() y el uid por separado .id
+para comodidad pusheo un objeto con {id: , ...snapHijo.data() }
+esto es similar a un subscribe de angular, una vez que arranca
+se queda escuchando cambios, y cada cambio ejecuta otra vez esto
 
 ```
 usuariosRef
@@ -90,22 +90,22 @@ usuariosRef
     })
 ```
 
-    Para tener un codigo mas limpio, lo separe en otro archivo
-    y creo el metodo retornaDocumentos(snap)
+Para tener un codigo mas limpio, lo separe en otro archivo
+y creo el metodo retornaDocumentos(snap)
     
 ```
 usuariosRef
     .onSnapshot(snap => retornaDocumentos(snap));
 ```
 
-    forma mas corta posible, ya que el primer argumento lo mandamos de una
-    podemos escribirlo asi
+forma mas corta posible, ya que el primer argumento lo mandamos de una
+podemos escribirlo asi
 ```
 usuariosRef
     .onSnapshot(retornaDocumentos);
 ```
 
-    Solo una vez, sin traer todo mediante deteccion de cambios
+Solo una vez, sin traer todo mediante deteccion de cambios
 ```
 usuariosRef
     .get()
@@ -113,13 +113,13 @@ usuariosRef
 ```
 
 
-    Equivalente SQL:
-        Select * from usuarios
-            Where activo = true
+Equivalente SQL:
+    Select * from usuarios
+        Where activo = true
 
-        where(campo que me interesa, operador, valor que me interesa)
+    where(campo que me interesa, operador, valor que me interesa)
 
-    Ejemplo 1:
+Ejemplo 1:
 ```
         usuariosRef
         .where('activo', '==', true)
@@ -127,14 +127,14 @@ usuariosRef
         .then(retornaDocumentos);
 ```
 
-    Ejemplo 2
+Ejemplo 2
 ```
     usuariosRef
         .where('salario', '>', 1800)
         .get()
         .then(retornaDocumentos);
 ```
-    Ejemplo 3 (compuesto)
+Ejemplo 3 (compuesto)
 ```   
     usuariosRef
         .where('salario', '>', 1800)
@@ -142,25 +142,25 @@ usuariosRef
         .get()
         .then(retornaDocumentos);
 ```
-    Ejemplo 4 (compuesto con 2 campos distintos)
+Ejemplo 4 (compuesto con 2 campos distintos)
 
-    No se puede, firebase va a tirar el error
-    FirebaseError: The query requires an index. You can create it
-    here: 'un link'
+No se puede, firebase va a tirar el error
+FirebaseError: The query requires an index. You can create it
+here: 'un link'
 
-    Hay 2 soluciones:
+Hay 2 soluciones:
 
-    1) Hay que ir a la consola de firebase
-    -> firestore
-    -> base de datos deseada
-    -> indices
-    -> crear indice
+1) Hay que ir a la consola de firebase
+-> firestore
+-> base de datos deseada
+-> indices
+-> crear indice
 
-    2) haces click en el link del error que aparece en consola
-    -     te crea un indice justo como lo necesitas
+2) haces click en el link del error que aparece en consola
+-     te crea un indice justo como lo necesitas
 
-    La creacion de indices puede demorar 1-5 minutos, tenesmos que ver que
-    el estado del indice pase de Creando... en Habilitado
+La creacion de indices puede demorar 1-5 minutos, tenesmos que ver que
+el estado del indice pase de Creando... en Habilitado
 ```
     usuariosRef
         .where('salario', '>=', 1800)
@@ -181,15 +181,15 @@ usuariosRef
         .then(retornaDocumentos);
 ```
 
-    Suponiendo que queremos pedir los datos con orderBy()
-    PERO no todos tienen ese campo, como por ejemplo...
-    de 10 registros, solo 7 tienen el campo salario agregado
+Suponiendo que queremos pedir los datos con orderBy()
+PERO no todos tienen ese campo, como por ejemplo...
+de 10 registros, solo 7 tienen el campo salario agregado
 
-    el orderBy va a traer todos los que tengan salario, y los ordena
-    ojo con eso
+el orderBy va a traer todos los que tengan salario, y los ordena
+ojo con eso
 
-    Equivalente SQL: select * from usuarios order by nombre asc, salario asc
-    Aclaracion: aca hay que agregar el indice como esta explicado en el where de este readme
+Equivalente SQL: select * from usuarios order by nombre asc, salario asc
+Aclaracion: aca hay que agregar el indice como esta explicado en el where de este readme
     
 ```
     usuariosRef
