@@ -157,7 +157,7 @@ Hay 2 soluciones:
 -> crear indice
 
 2) haces click en el link del error que aparece en consola
--     te crea un indice justo como lo necesitas
+Crea un indice justo como lo necesitas
 
 La creacion de indices puede demorar 1-5 minutos, tenesmos que ver que
 el estado del indice pase de Creando... en Habilitado
@@ -170,9 +170,9 @@ el estado del indice pase de Creando... en Habilitado
 ```
 ## orderBy(campo deseado, 'asc' o 'desc')
 
-   Equivalente SQL: select * from usuarios order by nombre asc
+Equivalente SQL: select * from usuarios order by nombre asc
 
-   Es como el where() pero le agrega un sort
+Es como el where() pero le agrega un sort
    
 ```
     usuariosRef
