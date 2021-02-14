@@ -1,10 +1,11 @@
 # Webpack Starter
 
-Este es el proyecto inicial para crear aplicaciones utilizando webpack.
+Proyecto para crear aplicaciones utilizando webpack.
 
 # CRUD Firestore
 
 ## Creo lo que quiero guardar
+
 ```
 const usuario = {
 nombre: 'Pedro',
@@ -15,19 +16,20 @@ fechaNac: 0
 
 ## Referencia a la db de firestore
 ```
-    const usuariosRef = db.collection('usuarios');
+const usuariosRef = db.collection('usuarios');
 ```
 
-## Agrego / Insertar
+## Agregar / Insertar
 
     le pongo el nombre que quiero a la collection
     (collecion = "tabla")
     add() si la tabla no existe, la crea
+    
 ```
-    usuariosRef
-        .add(usuario)
-        .then(docRef => console.log(docRef))
-        .catch(console.log);
+usuariosRef
+    .add(usuario)
+    .then(docRef => console.log(docRef))
+    .catch(console.log);
 ```
 
 ## Modifico
@@ -38,24 +40,24 @@ fechaNac: 0
 ```
 
 ## Modifico con set
-```
     A diferencia del update(), el set()
     destruye la info que no enviamos,
     por ende modifica todo el objeto (documento)
 
-    usuariosRef
-    .doc('jNzvTJSY8AYO43hG5dxy')
-    .set({ activo: false })
+```
+usuariosRef
+.doc('jNzvTJSY8AYO43hG5dxy')
+.set({ activo: false })
 ```
 
 ## Borrar
 
 ```
-    usuariosRef
-        .doc('jNzvTJSY8AYO43hG5dxy')
-        .delete()
-        .then(() => console.log('Borrado'))
-        .catch(console.log);
+usuariosRef
+    .doc('jNzvTJSY8AYO43hG5dxy')
+    .delete()
+    .then(() => console.log('Borrado'))
+    .catch(console.log);
 ```
 
 ## Seleccion de registros
@@ -73,38 +75,41 @@ fechaNac: 0
     se queda escuchando cambios, y cada cambio ejecuta otra vez esto
 
 ```
-    usuariosRef
-        .onSnapshot(snap => {
-            const usuarios: any[] = [];
+usuariosRef
+    .onSnapshot(snap => {
+        const usuarios: any[] = [];
 
-            snap.forEach(snapHijo => {
-                usuarios.push({
-                    id: snapHijo.id,
-                    ...snapHijo.data()
-                })
+        snap.forEach(snapHijo => {
+            usuarios.push({
+                id: snapHijo.id,
+                ...snapHijo.data()
             })
-
-            console.log(usuarios);
         })
-```
-    para tener un codigo mas limpio, lo separe en otro archivo
 
+        console.log(usuarios);
+    })
 ```
-    usuariosRef
-        .onSnapshot(snap => retornaDocumentos(snap));
+
+    Para tener un codigo mas limpio, lo separe en otro archivo
+    y creo el metodo retornaDocumentos(snap)
+    
 ```
+usuariosRef
+    .onSnapshot(snap => retornaDocumentos(snap));
+```
+
     forma mas corta posible, ya que el primer argumento lo mandamos de una
     podemos escribirlo asi
 ```
-    usuariosRef
-        .onSnapshot(retornaDocumentos);
+usuariosRef
+    .onSnapshot(retornaDocumentos);
 ```
 
     Solo una vez, sin traer todo mediante deteccion de cambios
 ```
-    usuariosRef
-        .get()
-        .then(retornaDocumentos);
+usuariosRef
+    .get()
+    .then(retornaDocumentos);
 ```
 
 
@@ -167,7 +172,8 @@ fechaNac: 0
 
    Equivalente SQL: select * from usuarios order by nombre asc
 
-    es como el where() pero le agrega un sort
+   Es como el where() pero le agrega un sort
+   
 ```
     usuariosRef
         .orderBy('nombre')
@@ -184,6 +190,7 @@ fechaNac: 0
 
     Equivalente SQL: select * from usuarios order by nombre asc, salario asc
     Aclaracion: aca hay que agregar el indice como esta explicado en el where de este readme
+    
 ```
     usuariosRef
         .orderBy('nombre')
@@ -205,5 +212,4 @@ Recuerden reconstruir los módulos de Node
 ```
 npm install
 npm run build
-```# js-ts-firestore
 
